@@ -39,10 +39,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/cryptix/git-remote-ipfs/internal/path"
 	"github.com/cryptix/go/logging"
 	"github.com/ipfs/go-ipfs-shell"
 	"github.com/pkg/errors"
+	"github.com/tcfw/git-remote-ipfs/internal/path"
 )
 
 const usageMsg = `usage git-remote-ipfs <repository> [<URL>]
