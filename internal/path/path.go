@@ -89,7 +89,7 @@ func ParseCidToPath(txt string) (Path, error) {
 		return "", err
 	}
 
-	return FromCid(c), nil
+	return FromCid(&c), nil
 }
 
 func (p *Path) IsValid() error {
