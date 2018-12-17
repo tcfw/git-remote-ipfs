@@ -40,8 +40,10 @@ import (
 	"strings"
 
 	"github.com/cryptix/go/logging"
+	kitlog "github.com/go-kit/kit/log"
 	"github.com/ipfs/go-ipfs-shell"
 	"github.com/pkg/errors"
+	"github.com/tcfw/git-remote-ipfs/internal/debug"
 	"github.com/tcfw/git-remote-ipfs/internal/path"
 )
 
@@ -79,6 +81,9 @@ func main() {
 	// logging
 	logging.SetupLogging(nil)
 	log = logging.Logger("git-remote-ipfs")
+	if debug.Debug() == false {
+		log = kitlog.NewNopLogger()
+	}
 
 	// env var and arguments
 	thisGitRepo = os.Getenv("GIT_DIR")
@@ -101,10 +106,16 @@ func main() {
 		logFatal(fmt.Sprintf("usage: unknown # of args: %d\n%v", v, os.Args[1:]))
 	}
 
-	// parse passed URL
+	// parse passed URL (IPFS)
 	for _, pref := range []string{"ipfs://ipfs/", "ipfs:///ipfs/"} {
 		if strings.HasPrefix(u, pref) {
 			u = "/ipfs/" + u[len(pref):]
+		}
+	}
+	// parse passed URL (IPNS)
+	for _, pref := range []string{"ipfs://ipns/", "ipfs:///ipns/"} {
+		if strings.HasPrefix(u, pref) {
+			u = "/ipns/" + u[len(pref):]
 		}
 	}
 	p, err := path.ParsePath(u)
