@@ -3,11 +3,13 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 
 	"github.com/pkg/errors"
+	"github.com/tcfw/git-remote-ipfs/internal/debug"
 )
 
 func push(src, dst string) error {
@@ -113,5 +115,8 @@ func push(src, dst string) error {
 		return errors.Wrapf(err, "updating remote url failed\nOut:%s", string(out))
 	}
 	log.Log("msg", "remote updated", "address", newRemoteURL)
+	if debug.Debug() == false {
+		fmt.Fprintf(os.Stderr, "New remote address: %s\n", newRemoteURL)
+	}
 	return nil
 }
