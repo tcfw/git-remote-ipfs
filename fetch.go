@@ -67,7 +67,7 @@ func fetchAndWriteObj(sha1 string) (*git.Object, error) {
 		return nil, errors.Wrapf(err, "shell.Cat() commit failed")
 	}
 	targetP := filepath.Join(thisGitRepo, "objects", sha1[:2], sha1[2:])
-	if err := os.MkdirAll(filepath.Join(thisGitRepo, "objects", sha1[:2]), 0700); err != nil {
+	if err := os.MkdirAll(filepath.Join(thisGitRepo, "objects", sha1[:2]), 0755); err != nil {
 		return nil, errors.Wrapf(err, "mkDirAll() failed")
 	}
 	targetObj, err := os.Create(targetP)
